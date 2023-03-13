@@ -1,0 +1,1 @@
+export {default as Logo} from './pexels-photo-1649771.webp'
