@@ -56,6 +56,12 @@ const Navbar = () => {
                 </NavLink>
                 <p className='text-base text-textColor hover:font-semibold duration-150 transition-all ease-in-out '>My Favourites</p>
                     <hr />
+
+                    {user?.user?.role === "admin" &&(<NavLink to={"/dashboard/home"}>
+                        <p className='text-base text-textColor hover:font-semibold duration-150 transition-all ease-in-out '>Dashboard</p>
+                        </NavLink>
+                    )}
+
                     <p className='text-base text-textColor hover:font-semibold duration-150 transition-all ease-in-out ' onClick={logOut}>Sign Out</p>
             </motion.div>)}
         </div>

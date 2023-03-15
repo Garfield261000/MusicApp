@@ -10,6 +10,7 @@ import { getAuth } from 'firebase/auth'
 import { validateUser } from './api'
 import { useStateValue } from './context/StateProvider'
 import { actionType } from './context/reducer'
+import Dashboard from './components/Dashboard'
 
 const App = () => {
     const firebaseAuth = getAuth(app);
@@ -49,6 +50,7 @@ const App = () => {
             <Routes>
                 <Route path='/login' element={<Login setAuth={setAuth}/>}/>
                 <Route path='/*' element={<Home/>}/>
+                <Route path='/dashboard/*' element={<Dashboard/>}/>
             </Routes>
         </div>
     </AnimatePresence>
