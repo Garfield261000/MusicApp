@@ -35,7 +35,7 @@ router.get("/getAll",async(req,res)=>{
      
     const data = await album.find().sort({createdAt : 1});
     if (data){
-       return res.status(200).send({success:true, album : data});
+       return res.status(200).send({success:true, data : data});
     }else{
        return res.status(400).send({success:false,message:"Data not found"});
     }

@@ -31,6 +31,15 @@ router.get("/login", async(req,res)=>{
     
 })
 
+router.get("/getUsers", async(req,res)=>{
+    const data = await user.find().sort({createdAt : 1});
+     if (data){
+        return res.status(200).send({success:true, data : data});
+     }else{
+        return res.status(400).send({success:false,message:"Data not found"});
+     }
+})
+
 const newUserData = async(decodeValue,req,res) => {
     const newUser = new user({
         name : decodeValue.name,
@@ -71,5 +80,28 @@ const updateNewUserData = async(decodeValue,req,res)=>{
         res.status(400).send({success : false, msg : error})
     }
 }
+
+router.put("/updateRole/:userId", async(req,res)=>{
+    const filter = { _id : req.params.userId};
+    const role = req.body.data.role;
+
+    try {
+        const result = await user.findOneAndUpdate(filter,{role : role});
+        res.status(200).send({success:true,user:result});
+    } catch (error) {
+        res.status(400).send({success:false,message:error})
+    }
+})
+
+router.delete("/deleteUser/:userId", async(req,res)=>{
+    const filter = { _id : req.params.userId}
+
+    const result = await user.deleteOne(filter);
+    if(result.deletedCount===1){
+        res.status(200).send({success:true,message:"User Removed"})
+    }else{
+        res.status(400).send({success:false,message:"User not found"})
+    }
+})
 
 module.exports = router;
