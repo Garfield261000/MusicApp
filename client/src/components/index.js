@@ -9,3 +9,7 @@ export {default as DashboardSongs} from './DashboardSongs'
 export {default as DashboardUsers} from './DashboardUsers'
 export {default as DashboardAlbums} from './DashboardAlbums'
 export {default as DashboardArtists} from './DashboardArtists'
+export {default as SongCard} from './SongCard'
+export {default as DashboardNewSong} from './DashboardNewSong'
+
+export {default as FilterButtons} from './FilterButtons'
