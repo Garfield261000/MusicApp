@@ -75,7 +75,7 @@ try {
 export const saveNewArtist = async (data) => {
     try {
       const res = axios.post(`${baseURL}api/artists/save`, { ...data });
-      return (await res).data.artist;
+      return (await res).data.savedArtist;
     } catch (error) {
       return null;
     }
@@ -84,7 +84,7 @@ export const saveNewArtist = async (data) => {
   export const saveNewAlbum = async (data) => {
     try {
       const res = axios.post(`${baseURL}api/albums/save`, { ...data });
-      return (await res).data.album;
+      return (await res).data.savedArtist;
     } catch (error) {
       return null;
     }
@@ -102,6 +102,24 @@ export const saveNewArtist = async (data) => {
   export const deleteSongById = async (id) => {
     try {
       const res = axios.delete(`${baseURL}api/songs/delete/${id}`);
+      return res;
+    } catch (error) {
+      return null;
+    }
+  };
+
+  export const deleteAlbumById = async (id) => {
+    try {
+      const res = axios.delete(`${baseURL}api/albums/delete/${id}`);
+      return res;
+    } catch (error) {
+      return null;
+    }
+  };
+
+  export const deleteArtistById = async (id) => {
+    try {
+      const res = axios.delete(`${baseURL}api/artists/delete/${id}`);
       return res;
     } catch (error) {
       return null;

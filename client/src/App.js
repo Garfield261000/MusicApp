@@ -1,22 +1,23 @@
 import React from 'react'
 import { useState,useEffect } from 'react'
 import { Route,Routes, useNavigate } from 'react-router-dom'
-import {Home, Login} from './components'
+import {Home, Login, MusicPlayer} from './components'
 import { app } from './config/firebase.config'
 
-import {AnimatePresence} from 'framer-motion'
+import {AnimatePresence, motion} from 'framer-motion'
 
 import { getAuth } from 'firebase/auth'
 import { validateUser } from './api'
 import { useStateValue } from './context/StateProvider'
 import { actionType } from './context/reducer'
 import Dashboard from './components/Dashboard'
+import UserProfile from './components/UserProfile'
 
 const App = () => {
     const firebaseAuth = getAuth(app);
     const navigate = useNavigate();
 
-    const [{user}, dispatch] = useStateValue();
+    const [{user,isSongPlaying}, dispatch] = useStateValue();
 
     const [auth, setAuth] = useState(false || window.localStorage.getItem("auth") === "true")
 
@@ -51,7 +52,17 @@ const App = () => {
                 <Route path='/login' element={<Login setAuth={setAuth}/>}/>
                 <Route path='/*' element={<Home/>}/>
                 <Route path='/dashboard/*' element={<Dashboard/>}/>
+                <Route path="/userProfile" element={<UserProfile/>} />
             </Routes>
+            {isSongPlaying && (
+                <motion.div
+                    initial={{opacity:0 , y:50}}
+                    animate={{opacity:1 , y:0}}
+                    exit={{ opacity: 0, y: 50 }}
+                    className={`fixed min-w-[700px] h-50 inset-x-0 bottom-0  bg-cardOverlay drop-shadow-2xl backdrop-blur-md flex items-center justify-center`}>
+                    <MusicPlayer/>
+                </motion.div>
+            )}
         </div>
     </AnimatePresence>
   )

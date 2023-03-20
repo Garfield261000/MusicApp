@@ -25,8 +25,7 @@ import {
 import { actionType } from "../context/reducer";
 import { filterByLanguage, filters } from "../utils/supportfunctions";
 import { IoMusicalNote } from "react-icons/io5";
-import AlertSuccess from "./AlertSuccess";
-import AlertError from "./AlertError";
+import {AlertSuccess,AlertError} from "./index";
 
 export const FileLoader = ({ progress }) => {
   return (
@@ -341,12 +340,13 @@ const DashboardNewSong = () => {
                   className="px-8 py-2 rounded-md text-white bg-red-600 hover:shadow-lg"
                   onClick={saveSong}
                 >
-                  Send
+                  Save Song
                 </motion.button>
               )}
             </div>
           
-        <div className="flex flex-col items-center justify-center w-full p-4">
+        <div className="flex flex-col items-center justify-center w-full gap-4">
+          <p className="text-xl font-semibold text-headingColor ">Artist Details</p>
           <AddNewArtist />
           <AddNewAlbum />
         </div>
@@ -364,22 +364,22 @@ const DashboardNewSong = () => {
 };
 
 export const AddNewArtist = () => {
-  const [isArtist, setIsArtist] = useState(false);
-  const [artistProgress, setArtistProgress] = useState(0);
+  const [isAlbum, setIsAlbum] = useState(false);
+  const [albumProgress, setAlbumProgress] = useState(0);
 
   const [alert, setAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState(null);
-  const [artistCoverImage, setArtistCoverImage] = useState(null);
+  const [albumCoverImage, setAlbumCoverImage] = useState(null);
 
-  const [artistName, setArtistName] = useState("");
+  const [albumName, setAlbumName] = useState("");
   const [twitter, setTwitter] = useState("");
   const [instagram, setInstagram] = useState("");
 
   const [{ artists }, dispatch] = useStateValue();
 
   const deleteImageObject = (songURL) => {
-    setIsArtist(true);
-    setArtistCoverImage(null);
+    setIsAlbum(true);
+    setAlbumCoverImage(null);
     const deleteRef = ref(storage, songURL);
     deleteObject(deleteRef).then(() => {
       setAlert("success");
@@ -387,57 +387,62 @@ export const AddNewArtist = () => {
       setTimeout(() => {
         setAlert(null);
       }, 4000);
-      setIsArtist(false);
+      setIsAlbum(false);
     });
   };
 
-  const saveArtist = () => {
-    if (!artistCoverImage || !artistName) {
+  const saveAlbum = () => {
+    if (!albumCoverImage || !albumName || !twitter || !instagram) {
       setAlert("error");
       setAlertMsg("Required fields are missing");
       setTimeout(() => {
         setAlert(null);
       }, 4000);
     } else {
-      setIsArtist(true);
+      setIsAlbum(true);
       const data = {
-        name: artistName,
-        imageURL: artistCoverImage,
-        twitter: twitter,
-        instagram: instagram,
+        name: albumName,
+        imageURL: albumCoverImage,
+        twitter: `www.twitter.com/${twitter}`,
+        instagram: `www.instagram.com/${instagram}`,
       };
       saveNewArtist(data).then((res) => {
-        getAllArtist().then((artistData) => {
-          dispatch({ type: actionType.SET_ARTISTS, artists: artistData.data });
+        getAllArtist().then((data) => {
+          dispatch({ type: actionType.SET_ALL_ARTISTS, allArtists: data.artist });
         });
       });
-      setIsArtist(false);
-      setArtistCoverImage(null);
-      setArtistName("");
+      setAlert("success");
+      setAlertMsg("Data saved successfully");
+      setTimeout(() => {
+        setAlert(null);
+      }, 4000);
+      setIsAlbum(false);
+      setAlbumCoverImage(null);
+      setAlbumName("");
       setTwitter("");
       setInstagram("");
     }
   };
 
   return (
-    <div className="flex items-center justify-evenly w-full flex-wrap">
-      <div className="bg-card  backdrop-blur-md w-full lg:w-225 h-225 rounded-md border-2 border-dotted border-gray-300 cursor-pointer">
-        {isArtist && <FileLoader progress={artistProgress} />}
-        {!isArtist && (
+    <>
+      <div className="bg-card  backdrop-blur-md w-full h-300 rounded-md border-2 border-dotted border-gray-300 cursor-pointer">
+        {isAlbum && <FileLoader progress={albumProgress} />}
+        {!isAlbum && (
           <>
-            {!artistCoverImage ? (
+            {!albumCoverImage ? (
               <FileUploader
-                setImageURL={setArtistCoverImage}
+                setImageURL={setAlbumCoverImage}
                 setAlert={setAlert}
                 alertMsg={setAlertMsg}
-                isLoading={setIsArtist}
-                setProgress={setArtistProgress}
+                isLoading={setIsAlbum}
+                setProgress={setAlbumProgress}
                 isImage={true}
               />
             ) : (
               <div className="relative w-full h-full overflow-hidden rounded-md">
                 <img
-                  src={artistCoverImage}
+                  src={albumCoverImage}
                   alt="uploaded image"
                   className="w-full h-full object-cover"
                 />
@@ -445,7 +450,7 @@ export const AddNewArtist = () => {
                   type="button"
                   className="absolute bottom-3 right-3 p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none hover:shadow-md  duration-500 transition-all ease-in-out"
                   onClick={() => {
-                    deleteImageObject(artistCoverImage);
+                    deleteImageObject(albumCoverImage);
                   }}
                 >
                   <MdDelete className="text-white" />
@@ -456,16 +461,15 @@ export const AddNewArtist = () => {
         )}
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-4 ">
         <input
           type="text"
           placeholder="Artist Name"
-          className="w-full lg:w-300 p-3 rounded-md text-base font-semibold text-textColor outline-none shadow-sm border border-gray-300 bg-transparent"
-          value={artistName}
-          onChange={(e) => setArtistName(e.target.value)}
+          className="w-full p-3 rounded-md text-base font-semibold text-textColor outline-none shadow-sm border border-gray-300 bg-transparent"
+          value={albumName}
+          onChange={(e) => setAlbumName(e.target.value)}
         />
 
-        <div className="w-full lg:w-300 p-3 flex items-center rounded-md  shadow-sm border border-gray-300">
+        <div className="w-full p-3 flex items-center rounded-md  shadow-sm border border-gray-300">
           <p className="text-base font-semibold text-gray-400">
             www.twitter.com/
           </p>
@@ -478,7 +482,7 @@ export const AddNewArtist = () => {
           />
         </div>
 
-        <div className="w-full lg:w-300 p-3 flex items-center rounded-md  shadow-sm border border-gray-300">
+        <div className="w-full  p-3 flex items-center rounded-md  shadow-sm border border-gray-300">
           <p className="text-base font-semibold text-gray-400">
             www.instagram.com/
           </p>
@@ -491,20 +495,20 @@ export const AddNewArtist = () => {
           />
         </div>
 
-        <div className="w-full lg:w-300 flex items-center justify-center lg:justify-end">
-          {isArtist ? (
+        <div className="w-full lg:w-300 flex items-center justify-center ">
+          {isAlbum ? (
             <DisabledButton />
           ) : (
             <motion.button
               whileTap={{ scale: 0.75 }}
               className="px-8 py-2 rounded-md text-white bg-red-600 hover:shadow-lg"
-              onClick={saveArtist}
+              onClick={saveAlbum}
             >
-              Send
+              Save Artist
             </motion.button>
           )}
         </div>
-      </div>
+     
 
       {alert && (
         <>
@@ -515,25 +519,25 @@ export const AddNewArtist = () => {
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 
 export const AddNewAlbum = () => {
-  const [isArtist, setIsArtist] = useState(false);
-  const [artistProgress, setArtistProgress] = useState(0);
+  const [isAlbum, setIsAlbum] = useState(false);
+  const [albumProgress, setAlbumProgress] = useState(0);
 
   const [alert, setAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState(null);
-  const [artistCoverImage, setArtistCoverImage] = useState(null);
+  const [albumCoverImage, setAlbumCoverImage] = useState(null);
 
-  const [artistName, setArtistName] = useState("");
+  const [albumName, setAlbumName] = useState("");
 
   const [{ artists }, dispatch] = useStateValue();
 
   const deleteImageObject = (songURL) => {
-    setIsArtist(true);
-    setArtistCoverImage(null);
+    setIsAlbum(true);
+    setAlbumCoverImage(null);
     const deleteRef = ref(storage, songURL);
     deleteObject(deleteRef).then(() => {
       setAlert("success");
@@ -541,56 +545,62 @@ export const AddNewAlbum = () => {
       setTimeout(() => {
         setAlert(null);
       }, 4000);
-      setIsArtist(false);
+      setIsAlbum(false);
     });
   };
 
-  const saveArtist = () => {
-    if (!artistCoverImage || !artistName) {
+  const saveAlbum = () => {
+    if (!albumCoverImage || !albumName) {
       setAlert("error");
       setAlertMsg("Required fields are missing");
       setTimeout(() => {
         setAlert(null);
       }, 4000);
     } else {
-      setIsArtist(true);
+      setIsAlbum(true);
       const data = {
-        name: artistName,
-        imageURL: artistCoverImage,
+        name: albumName,
+        imageURL: albumCoverImage,
       };
       saveNewAlbum(data).then((res) => {
-        getAllAlbums().then((albumData) => {
+        getAllAlbums().then((data) => {
           dispatch({
-            type: actionType.SET_ALL_ALBUMNS,
-            albumData: albumData.data,
+            type: actionType.SET_ALL_ALBUMS,
+            allAlbums: data.album,
           });
         });
       });
-      setIsArtist(false);
-      setArtistCoverImage(null);
-      setArtistName("");
+      
+      setAlert("success");
+      setAlertMsg("Data saved successfully");
+      setTimeout(() => {
+        setAlert(null);
+      }, 4000);
+      setIsAlbum(false);
+      setAlbumCoverImage(null);
+      setAlbumName("");
     }
   };
 
   return (
-    <div className="flex items-center justify-evenly w-full flex-wrap">
-      <div className="bg-card  backdrop-blur-md w-full lg:w-225 h-225 rounded-md border-2 border-dotted border-gray-300 cursor-pointer">
-        {isArtist && <FileLoader progress={artistProgress} />}
-        {!isArtist && (
+    <>
+      <div className="bg-card  backdrop-blur-md w-full h-225 rounded-md border-2 border-dotted border-gray-300 cursor-pointer">
+        {isAlbum && <FileLoader progress={albumProgress} />}
+        {!isAlbum && (
           <>
-            {!artistCoverImage ? (
+            {!albumCoverImage ? (
               <FileUploader
-                setImageURL={setArtistCoverImage}
+                setImageURL={setAlbumCoverImage}
                 setAlert={setAlert}
                 alertMsg={setAlertMsg}
-                isLoading={setIsArtist}
-                setProgress={setArtistProgress}
+                isLoading={setIsAlbum}
+                setProgress={setAlbumProgress}
                 isImage={true}
               />
             ) : (
               <div className="relative w-full h-full overflow-hidden rounded-md">
                 <img
-                  src={artistCoverImage}
+                  src={albumCoverImage}
                   alt="uploaded image"
                   className="w-full h-full object-cover"
                 />
@@ -598,7 +608,7 @@ export const AddNewAlbum = () => {
                   type="button"
                   className="absolute bottom-3 right-3 p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none hover:shadow-md  duration-500 transition-all ease-in-out"
                   onClick={() => {
-                    deleteImageObject(artistCoverImage);
+                    deleteImageObject(albumCoverImage);
                   }}
                 >
                   <MdDelete className="text-white" />
@@ -609,25 +619,25 @@ export const AddNewAlbum = () => {
         )}
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-4 ">
+      <div className="flex flex-col items-center justify-center gap-4 w-full">
         <input
           type="text"
-          placeholder="Artist Name"
-          className="w-full lg:w-300 p-3 rounded-md text-base font-semibold text-textColor outline-none shadow-sm border border-gray-300 bg-transparent"
-          value={artistName}
-          onChange={(e) => setArtistName(e.target.value)}
+          placeholder="Album Name"
+          className="w-full p-3 rounded-md text-base font-semibold text-textColor outline-none shadow-sm border border-gray-300 bg-transparent"
+          value={albumName}
+          onChange={(e) => setAlbumName(e.target.value)}
         />
 
-        <div className="w-full lg:w-300 flex items-center justify-center lg:justify-end">
-          {isArtist ? (
+        <div className="w-full flex items-center justify-center ">
+          {isAlbum ? (
             <DisabledButton />
           ) : (
             <motion.button
               whileTap={{ scale: 0.75 }}
               className="px-8 py-2 rounded-md text-white bg-red-600 hover:shadow-lg"
-              onClick={saveArtist}
+              onClick={saveAlbum}
             >
-              Send
+              Save Album
             </motion.button>
           )}
         </div>
@@ -642,7 +652,7 @@ export const AddNewAlbum = () => {
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 

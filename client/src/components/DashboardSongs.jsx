@@ -44,7 +44,7 @@ const DashboardSongs = () => {
       </div>
 
       {/* main container */}
-      <div className='relative w-full my-4 p-4 border border-gray-300 rounded-md'>
+      <div className='relative w-full my-4 p-4 py-16 border border-gray-300 rounded-md'>
        {/* the count */}
        <div className='absolute top-4 left-4'>
         <p className='text-xl font-bold'>
@@ -64,7 +64,7 @@ export const SongContainer = ({data}) =>{
   return (
     <div className='w-full flex flwx-wrap gap-3 items-center justify-evenly'>
       {data && data.map((song ,i) =>(
-        <SongCard key={song._id} data={song} index={i}/>
+        <SongCard key={song._id} data={song} index={i} type={"song"}/>
       ))}
     </div>
   )

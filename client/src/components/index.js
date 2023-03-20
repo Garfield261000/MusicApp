@@ -13,3 +13,8 @@ export {default as SongCard} from './SongCard'
 export {default as DashboardNewSong} from './DashboardNewSong'
 
 export {default as FilterButtons} from './FilterButtons'
+
+export {default as AlertError} from './AlertError'
+export {default as AlertSuccess} from './AlertSuccess'
+
+export {default as MusicPlayer} from './MusicPlayer'

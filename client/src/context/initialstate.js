@@ -8,4 +8,7 @@ export const initialState = {
     artistFilter : null,
     albumFilter : null,
     languageFilter : null,
+    isSongPlaying:false,
+    songIndex:0,
+    searchTerm:""
 }

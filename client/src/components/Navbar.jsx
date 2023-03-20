@@ -5,6 +5,7 @@ import {Logo} from '../assets/images';
 import { isActiveStyles,isNotActiveStyles } from '../utils/styles';
 import {FaCrown} from 'react-icons/fa'
 import { useStateValue } from '../context/StateProvider';
+import { actionType } from '../context/reducer';
 import { app } from '../config/firebase.config';
 import { getAuth } from 'firebase/auth';
 
@@ -12,11 +13,15 @@ import {motion} from 'framer-motion'
 
 const Navbar = () => {
 
-    const [{user} , dispatch] = useStateValue();
+    const [{user,isSongPlaying} , dispatch] = useStateValue();
     const [isMenu, setIsMenu] = useState(false);
     const navigate = useNavigate();
 
     const logOut = () =>{
+        dispatch({
+            type: actionType.SET_IS_SONG_PLAYING,
+            isSongPlaying: false,
+          });
         const firebaseAuth = getAuth(app)
         firebaseAuth.signOut().then(()=>{
             window.localStorage.setItem("auth","false");
