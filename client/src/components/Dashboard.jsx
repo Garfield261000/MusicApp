@@ -10,11 +10,11 @@ import { DashboardHome,DashboardAlbums, DashboardArtists,DashboardUsers,Dashboar
 
 const Dashboard = () => {
   return (
-    <div className='w-full h-auto flex flex-col items-center justify-center bg-primary '>
+    <div className='w-full h-auto flex flex-col items-center justify-center bg-[#790252] '>
         <Navbar/>
         <div className='w-[60%] my-2 p-4 flex items-center justify-evenly'>
           <NavLink to={"/dashboard/home"} className={({isActive})=>isActive?isActiveStyles:isNotActiveStyles}>
-            <IoHome className='text-2xl text-textColor'></IoHome>
+            <IoHome className='text-2xl text-white'></IoHome>
           </NavLink>
           <NavLink to={"/dashboard/user"} className={({isActive})=>isActive?isActiveStyles:isNotActiveStyles}> 
           Users
@@ -30,7 +30,7 @@ const Dashboard = () => {
           </NavLink>
         </div>
 
-        <div className='my-4 w-full p-4'>
+        <div className='my-4 w-full h-800 p-4 '>
           <Routes>
             <Route path='/home' element={<DashboardHome/>}/>
             <Route path='/user' element=

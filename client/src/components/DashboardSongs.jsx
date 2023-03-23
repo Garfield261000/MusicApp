@@ -62,7 +62,7 @@ const DashboardSongs = () => {
 
 export const SongContainer = ({data}) =>{
   return (
-    <div className='w-full flex flwx-wrap gap-3 items-center justify-evenly'>
+    <div className='w-full flex flex-wrap gap-3 items-center justify-evenly'>
       {data && data.map((song ,i) =>(
         <SongCard key={song._id} data={song} index={i} type={"song"}/>
       ))}

@@ -31,7 +31,7 @@ const DashboardArtists = () => {
 
 export const ArtistContainer = ({data}) =>{
   return (
-    <div className='w-full flex flwx-wrap gap-3 items-center justify-evenly'>
+    <div className='w-full flex flex-wrap gap-3 items-center justify-evenly'>
       {data && data.map((artist ,i) =>(
         <SongCard key={artist._id} data={artist} index={i} type={"artist"}/>
       ))}

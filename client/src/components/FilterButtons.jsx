@@ -32,9 +32,9 @@ const FilterButtons = ({ filterData, flag }) => {
   };
 
   return (
-    <div className="border border-gray-300 rounded-md px-4 py-1 relative cursor-pointer hover:border-gray-400">
+    <div className="border border-[#fffefe] rounded-md px-4 py-1 relative cursor-pointer hover:font-semibold hover:text-white">
       <p
-        className="text-base tracking-wide text-textColor flex items-center gap-2 "
+        className="text-base tracking-wide text-[#ffffff] flex items-center gap-2 "
         onClick={() => setFilterMenu(!filterMenu)}
       >
         {!filterName && flag}
@@ -46,7 +46,7 @@ const FilterButtons = ({ filterData, flag }) => {
           </>
         )}
         <IoChevronDown
-          className={`text-base text-textColor duration-150 transition-all ease-in-out ${
+          className={`text-base text-[#f3efef]  duration-150 transition-all ease-in-out ${
             filterMenu ? "rotate-180" : "rotate-0"
           }`}
         />
@@ -61,7 +61,7 @@ const FilterButtons = ({ filterData, flag }) => {
           {filterData?.map((data) => (
             <div
               key={data.name}
-              className="flex items-center gap-2 px-4 py-1 hover:bg-gray-200"
+              className="flex items-center gap-2 px-4 py-1 hover:bg-white"
               onClick={() => updateFilterButton(data.name)}
             >
               {(flag === "Artist" || flag === "Albums") && (

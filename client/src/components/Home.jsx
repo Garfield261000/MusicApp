@@ -47,7 +47,7 @@ const Home = () => {
       );
       setFilteredSongs(filtered);
     } else {
-      setFilteredSongs(null);
+      setFilteredSongs(allSongs);
     }
   }, [searchTerm]);
 
@@ -92,14 +92,14 @@ const Home = () => {
   }, [languageFilter]);
 
   return (
-    <div className="w-full h-auto flex flex-col items-center justify-center bg-primary">
+    <div className="w-full h-full flex flex-col items-center justify-center  bg-[#790252]">
       <Navbar />
       <SearchBar />
 
       {searchTerm.length > 0 && (
-        <p className="my-4 text-base text-textColor">
-          Searched for :
-          <span className="text-xl text-cartBg font-semibold">
+        <p className="my-4 text-base text-white">
+          Searched for : 
+          <span className="text-xl text-white ">
             {searchTerm}
           </span>
         </p>
@@ -107,7 +107,7 @@ const Home = () => {
 
       <Filter setFilteredSongs={setFilteredSongs} />
 
-      <div className="w-full h-auto flex items-center justify-evenly gap-4 flex-wrap p-4">
+      <div className="w-full h-full flex items-center justify-evenly gap-4 flex-wrap p-4">
         <HomeSongContainer musics={filteredSongs ? filteredSongs : allSongs} />
       </div>
     </div>
@@ -140,7 +140,7 @@ export const HomeSongContainer = ({ musics }) => {
           initial={{ opacity: 0, translateX: -50 }}
           animate={{ opacity: 1, translateX: 0 }}
           transition={{ duration: 0.3, delay: index * 0.1 }}
-          className="relative w-40 min-w-210 px-2 py-4 cursor-pointer hover:shadow-xl hover:bg-card bg-gray-100 shadow-md rounded-lg flex flex-col items-center"
+          className="relative w-40 min-w-210 px-2 py-4 cursor-pointer hover:shadow-xl hover:bg-[black] bg-[#1c1c1c] shadow-md rounded-lg flex flex-col items-center"
           onClick={() => addSongToContext(index)}
         >
           <div className="w-40 min-w-[160px] h-40 min-h-[160px] rounded-lg drop-shadow-lg relative overflow-hidden">
@@ -152,9 +152,9 @@ export const HomeSongContainer = ({ musics }) => {
             />
           </div>
 
-          <p className="text-base text-headingColor font-semibold my-2">
+          <p className="text-base text-center text-white font-semibold my-2">
             {data.name.length > 25 ? `${data.name.slice(0, 25)}` : data.name}
-            <span className="block text-sm text-gray-400 my-1">
+            <span className="block text-sm text-white my-1">
               {data.artist}
             </span>
           </p>

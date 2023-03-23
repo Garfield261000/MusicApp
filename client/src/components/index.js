@@ -1,5 +1,8 @@
 export {default as Login} from './Login'
 export {default as Home} from './Home'
+export {default as Musics} from './Musics'
+export {default as Premium} from './Premium'
+export {default as ContactUs} from './ContactUs'
 export {default as Navbar} from './Navbar'
 
 // Dashboard components

@@ -31,7 +31,7 @@ const DashboardAlbums = () => {
 
 export const AlbumContainer = ({data}) =>{
   return (
-    <div className='w-full flex flwx-wrap gap-3 items-center justify-evenly'>
+    <div className='w-full flex flex-wrap gap-3 items-center justify-evenly'>
       {data && data.map((album ,i) =>(
         <SongCard key={album._id} data={album} index={i} type={"album"}/>
       ))}

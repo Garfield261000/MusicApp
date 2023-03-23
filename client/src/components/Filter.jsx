@@ -13,13 +13,13 @@ const Filter = ({ setFilteredSongs }) => {
   useEffect(() => {
     if (!artists) {
       getAllArtist().then((data) => {
-        dispatch({ type: actionType.SET_ARTISTS, artists: data.data });
+        dispatch({ type: actionType.SET_ALL_ARTISTS, artists: data.data });
       });
     }
 
     if (!allAlbums) {
       getAllAlbums().then((data) => {
-        dispatch({ type: actionType.SET_ALL_ALBUMNS, allAlbums: data.data });
+        dispatch({ type: actionType.SET_ALL_ALBUMS, allAlbums: data.data });
       });
     }
   }, []);
@@ -48,8 +48,8 @@ const Filter = ({ setFilteredSongs }) => {
             key={data.id}
             onClick={() => updateFilter(data.value)}
             className={`text-base ${
-              data.value === filterTerm ? "font-semibold" : "font-normal"
-            } text-textColor cursor-pointer hover:font-semibold transition-all duration-100 ease-in-out`}
+              data.value === filterTerm ? "font-bold" : "font-normal"
+            } text-[#f5f5f5] cursor-pointer hover:font-bold transition-all duration-100 ease-in-out`}
           >
             {data.name}
           </p>
@@ -66,7 +66,7 @@ const Filter = ({ setFilteredSongs }) => {
         whileTap={{ scale: 0.75 }}
         onClick={clearAllFilter}
       >
-        <MdClearAll className="text-textColor text-xl cursor-pointer" />
+        <MdClearAll className="text-white text-xl cursor-pointer" />
       </motion.i>
     </div>
   );
